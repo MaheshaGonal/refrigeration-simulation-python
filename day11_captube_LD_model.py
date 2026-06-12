@@ -1,8 +1,9 @@
 
 # day11_captube_LD_model.py
 # Mahesha Gonal — Refrigeration Simulation Portfolio
-# Day 11: Proper cap tube model using Darcy-Weisbach — L and ID both considered
+# Day 11: Proper cap tube model — Darcy-Weisbach with L and ID
 # R600a | T_cond=40C | Target T_evap=-25C
+# Fix: diameter-specific mass flow rates for realistic results
 
 import CoolProp.CoolProp as CP
 import numpy as np
@@ -33,41 +34,101 @@ def calculate_cycle(T_evap_C, T_cond_C, refrigerant="R600a"):
     h2 = CP.PropsSI("H","P",P_cond,"S",s1,refrigerant)
     h3 = CP.PropsSI("H","T",T_cond,"Q",0,refrigerant)
     h4 = h3
-    return (h1-h4)/(h2-h1), 100/(h1-h4), h1, h2, h3, h4, P_evap, P_cond
+    COP = (h1-h4)/(h2-h1)
+    m_dot = 100/(h1-h4)
+    return COP, m_dot, h1, h2, h3, h4, P_evap, P_cond
 
-T_cond_C  = 40
-diameters = {"0.5mm":0.0005,"0.6mm":0.0006,"0.7mm":0.0007,"0.8mm":0.0008}
-L_range   = np.linspace(1.5, 4.5, 30)
-m_dot_est = 0.001
+# Fixed conditions
+T_cond_C    = 40
+refrigerant = "R600a"
+L_range     = np.linspace(1.5, 4.5, 30)
 
-plt.figure(figsize=(12,5))
-plt.subplot(1,2,1)
-for lbl,D in diameters.items():
-    T_list = []
+# Diameter-specific mass flow rates
+# Smaller ID carries less flow at realistic pressure drops
+diameter_mdot = {
+    "0.5mm ID": (0.0005, 0.00040),
+    "0.6mm ID": (0.0006, 0.00055),
+    "0.7mm ID": (0.0007, 0.00075),
+    "0.8mm ID": (0.0008, 0.00100),
+}
+
+# ── Chart ────────────────────────────────────────────────────
+fig, axes = plt.subplots(1, 2, figsize=(12, 5))
+
+# Plot 1 — T_evap vs L for each diameter
+for label, (D, m_dot) in diameter_mdot.items():
+    T_evap_list = []
     for L in L_range:
-        _,T = cap_tube_pressure_drop(L,D,T_cond_C,m_dot=m_dot_est)
-        T_list.append(T)
-    plt.plot(L_range,T_list,linewidth=2,label=lbl)
-plt.axhline(y=-25,color="gray",linestyle="--",alpha=0.7,label="Target -25C")
-plt.xlabel("Cap Tube Length (m)"); plt.ylabel("T_evap (C)")
-plt.title("T_evap vs L and ID"); plt.legend(); plt.grid(True,alpha=0.3)
+        _, T_evap = cap_tube_pressure_drop(L, D, T_cond_C, refrigerant, m_dot)
+        T_evap_list.append(T_evap)
+    axes[0].plot(L_range, T_evap_list, linewidth=2, label=label)
 
-plt.subplot(1,2,2)
-for lbl,D in diameters.items():
+axes[0].axhline(y=-25, color="gray", linestyle="--", alpha=0.7, label="Target -25C")
+axes[0].set_xlabel("Cap Tube Length (m)")
+axes[0].set_ylabel("Evaporator Temperature (C)")
+axes[0].set_title("T_evap vs L and ID | R600a | T_cond=40C")
+axes[0].legend(fontsize=9)
+axes[0].grid(True, alpha=0.3)
+
+# Plot 2 — COP vs L for each diameter
+for label, (D, m_dot) in diameter_mdot.items():
     COP_list = []
     for L in L_range:
-        _,T = cap_tube_pressure_drop(L,D,T_cond_C,m_dot=m_dot_est)
-        if T:
+        _, T_evap = cap_tube_pressure_drop(L, D, T_cond_C, refrigerant, m_dot)
+        if T_evap is not None:
             try:
-                COP,*_ = calculate_cycle(T,T_cond_C)
+                COP, *_ = calculate_cycle(T_evap, T_cond_C, refrigerant)
                 COP_list.append(COP)
-            except: COP_list.append(None)
-        else: COP_list.append(None)
-    plt.plot(L_range,COP_list,linewidth=2,label=lbl)
-plt.xlabel("Cap Tube Length (m)"); plt.ylabel("COP")
-plt.title("COP vs L and ID"); plt.legend(); plt.grid(True,alpha=0.3)
+            except:
+                COP_list.append(None)
+        else:
+            COP_list.append(None)
+    axes[1].plot(L_range, COP_list, linewidth=2, label=label)
 
-plt.suptitle("Cap Tube Selection Map — R600a | L and ID Effect",fontweight="bold")
+axes[1].set_xlabel("Cap Tube Length (m)")
+axes[1].set_ylabel("COP")
+axes[1].set_title("COP vs L and ID | R600a | T_cond=40C")
+axes[1].legend(fontsize=9)
+axes[1].grid(True, alpha=0.3)
+
+fig.suptitle("Cap Tube Selection Map — R600a | L and ID Effect",
+             fontweight="bold")
 plt.tight_layout()
-plt.savefig("day11_captube_LD_model.png",dpi=150)
+plt.savefig("day11_captube_LD_model.png", dpi=150)
 plt.show()
+
+# ── Selection Table ──────────────────────────────────────────
+diameter_mdot_table = {
+    0.0005: 0.00040,
+    0.0006: 0.00055,
+    0.0007: 0.00075,
+    0.0008: 0.00100,
+}
+
+L_fine = np.linspace(1.0, 6.0, 200)
+
+print("=" * 65)
+print("  CAP TUBE SELECTION TABLE — R600a")
+print("  Target: T_evap = -25C | T_cond = 40C")
+print("=" * 65)
+print(f"  ID (mm)   Length (m)   T_evap (C)      COP")
+print("-" * 65)
+
+for D, m_dot in diameter_mdot_table.items():
+    best_L=None; best_T=None; best_COP=None; min_diff=999
+    for L in L_fine:
+        _, T_evap = cap_tube_pressure_drop(L, D, T_cond_C, refrigerant, m_dot)
+        if T_evap is None: continue
+        diff = abs(T_evap - (-25))
+        if diff < min_diff:
+            min_diff=diff; best_L=L; best_T=T_evap
+            try:
+                COP,*_ = calculate_cycle(T_evap, T_cond_C, refrigerant)
+                best_COP = COP
+            except: best_COP=None
+    if best_L and best_COP:
+        print(f"  {D*1000:.1f}mm      {best_L:.2f}m        {best_T:.1f}C        {best_COP:.3f}")
+
+print("=" * 65)
+print("  Darcy-Weisbach model | diameter-specific m_dot assumed")
+print("=" * 65)
