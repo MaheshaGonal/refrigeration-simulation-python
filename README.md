@@ -1,45 +1,58 @@
-# Vapour Compression Cycle Simulator
+# Refrigeration Simulation Portfolio
 
-**Author:** Mahesha Gonal | Cooling R&D Engineer | LG Soft India
-
----
-
-## What This Does
-
-A complete Python-based vapour compression cycle simulator built on CoolProp. Input any refrigerant name, evaporator temperature, and condenser temperature — get full cycle analysis as output.
+**Mahesha Gonal** | Cooling R&D Engineer (IFB Industries → LG Soft India) | 3 granted patents in refrigeration/PCM technology
 
 ---
 
-## Features
+## What this repository is
 
-- P-H diagram with saturation dome + cycle overlay
-- COP calculation with real isentropic compressor efficiency
-- Subcooling and superheating support (validated on R134a + R600a)
-- Multi-refrigerant comparison: R134a, R600a, R290
-- Parametric COP vs evaporator temperature plots
+An 18-day, code-first build-up of refrigeration engineering simulation skills — starting from reading a single thermodynamic property, and ending at BEE star-rating compliance modelling. Every notebook is **runnable in Google Colab** and every notebook's outputs (charts, calculated numbers) are **saved directly in the file**, so you don't need to run any code to see the results — just open a notebook on GitHub and scroll.
 
----
+Each notebook also includes a short plain-language explanation of what the chart shows and why it matters, so the engineering point comes across even if you don't read Python.
 
-## Notebooks
-
-| Notebook | Description |
-|----------|-------------|
-| `day01`–`day07` | Week 1: setup, state points, P-H diagram, COP, parametric study |
-| `day08_compressor.ipynb` | Isentropic compressor with efficiency |
-| `day09_subcool_superheat.ipynb` | Real cycle with subcooling + superheating |
-| `day10_refrigerant_comparison.ipynb` | R134a vs R600a side by side |
-| `day11_r290_cycle.ipynb` | R290 (propane) full cycle |
-| `day12_multi_refrigerant.ipynb` | COP comparison chart — all 3 refrigerants |
-| `day13_superheat_subcooling_r134a_r600a.ipynb` | Superheat/subcooling COP impact — R134a + R600a |
+**Refrigerants used throughout:** R134a (HFC, being phased out), R600a (isobutane — used in IFB/LG refrigerators), and R290 (propane — the next-generation natural refrigerant). All simulations use [CoolProp](http://www.coolprop.org/), a free, open-source thermodynamic properties library.
 
 ---
 
-## Quick Start
+## Notebooks — Week 1: Foundations & the P-H Diagram
 
-Open any notebook in Google Colab, run Cell 1 (installs CoolProp), then run all cells top to bottom.
+| Notebook | What it shows |
+|---|---|
+| [`day01_first_property.ipynb`](day01_first_property.ipynb) | Reading boiling point & latent heat for R134a and R600a directly from CoolProp |
+| [`day02_state_points.ipynb`](day02_state_points.ipynb) | The four state points of a vapour-compression cycle, and the resulting COP |
+| [`day03_ph_diagram.ipynb`](day03_ph_diagram.ipynb) | The Pressure-Enthalpy (P-H) saturation dome — the "map" every cycle is drawn on |
+| [`day04_cycle_ph.ipynb`](day04_cycle_ph.ipynb) | The actual refrigeration cycle drawn as a loop on top of the P-H map |
+| [`day05_cop_function.ipynb`](day05_cop_function.ipynb) | Turning the cycle math into a reusable function + mass flow rate |
+| [`day06_refrigerant_comparison.ipynb`](day06_refrigerant_comparison.ipynb) | COP vs evaporator temperature — R134a vs R600a vs R290 |
+| [`day07_ambient_temperature_effect.ipynb`](day07_ambient_temperature_effect.ipynb) | How a hot Indian summer ambient drags down COP and raises annual energy use |
+
+## Notebooks — Week 2: Component Sizing & Real-World Effects
+
+| Notebook | What it shows |
+|---|---|
+| [`day08_captube_length_effect.ipynb`](day08_captube_length_effect.ipynb) | Capillary tube **length** trade-off: evaporator temp, COP, mass flow |
+| [`day09_condenser_sizing_effect.ipynb`](day09_condenser_sizing_effect.ipynb) | Condenser **area** trade-off: diminishing efficiency returns vs material cost |
+| [`day10_annual_energy_calculator.ipynb`](day10_annual_energy_calculator.ipynb) | Full calculator combining every model above — same fridge, 3 climates/condensers, 3 different BEE star ratings |
+| [`day11_captube_LD_model.ipynb`](day11_captube_LD_model.ipynb) | A proper fluid-mechanics (Darcy-Weisbach) capillary tube model — length **and** bore diameter |
+| [`day12_real_compressor_model.ipynb`](day12_real_compressor_model.ipynb) | Back-calculating real isentropic efficiency from a compressor datasheet EER |
+| [`day13_superheat_subcooling_r134a_r600a.ipynb`](day13_superheat_subcooling_r134a_r600a.ipynb) | Superheat & subcooling impact on COP — R134a vs R600a |
+| [`day14_cop_degradation_dashboard.ipynb`](day14_cop_degradation_dashboard.ipynb) | How much COP every refrigerant loses as condensing temperature climbs through an Indian summer |
+
+## Notebooks — Week 3: Patent-Linked Modelling & Compliance
+
+| Notebook | What it shows |
+|---|---|
+| [`day15_pcm_basics.ipynb`](day15_pcm_basics.ipynb) | Phase-change material (PCM) latent-heat storage — why it beats water 3.6x as a thermal buffer |
+| [`day16_pcm_integration.ipynb`](day16_pcm_integration.ipynb) | PCM pack improving bottle-cooling response time inside a refrigerator cabin |
+| [`day17_defrost_simulation.ipynb`](day17_defrost_simulation.ipynb) | Optimal defrost interval, and the energy a simultaneous cooling/defrosting design eliminates |
+| [`day18_bee_energy_analysis.ipynb`](day18_bee_energy_analysis.ipynb) | Official BEE Star Rating Band formula (IS 15750:2006) applied to the simulated annual energy number |
 
 ---
 
-## Engineering Context
+## Engineering context
 
-Built by a refrigeration R&D engineer with experience in BEE regulatory testing, compressor selection, and heat exchanger optimization at IFB Industries and LG Soft India. The refrigerant comparison work here maps directly to the global industry transition driven by EU F-Gas regulations phasing out HFCs before 2030.
+Built by a refrigeration R&D engineer with hands-on experience in BEE regulatory testing, compressor selection, and heat exchanger optimization at IFB Industries and LG Soft India, and three granted patents covering PCM-based cooling, multi-mode air circulation, and simultaneous cooling/defrosting. Several notebooks (Days 15–18) directly recreate the physics behind those patents as standalone simulations. The refrigerant comparison work (Days 6, 14) maps directly to the global industry transition away from HFCs like R134a, driven by EU F-Gas regulation and equivalent rules elsewhere.
+
+## Quick start
+
+Open any notebook in Google Colab (the "Open in Colab" badge works on any `.ipynb` file viewed on GitHub), run the first cell (installs CoolProp), then run all cells top to bottom. No local installation needed.
