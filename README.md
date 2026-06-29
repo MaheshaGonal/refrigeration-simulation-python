@@ -52,7 +52,7 @@ Phase-change material thermal modelling, defrost-cycle optimization, and BEE com
 
 | Notebook | What it shows |
 |---|---|
-| [`day21_capstone.ipynb`](day21_capstone.ipynb) | Final wrap: the 21-day arc + the CV note — kept in the repo itself |
+| [`day21_capstone.ipynb`](day21_capstone.ipynb) | Final wrap: the 21-day arc, by week and theme |
 
 ---
 
