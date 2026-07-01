@@ -1,6 +1,6 @@
 # Refrigeration Simulation Portfolio
 
-**Mahesha Gonal** | Cooling R&D Engineer (IFB Industries → LG Soft India) | 3 granted patents in refrigeration/PCM technology
+**Mahesha Gonal** | Cooling R&D Engineer (IFB Industries → LG Soft India) 
 
 ---
 
