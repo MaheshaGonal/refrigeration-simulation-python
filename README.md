@@ -6,7 +6,7 @@
 
 ## What this repository is
 
-A complete 21-day, code-first build-up of refrigeration engineering simulation skills — starting from reading a single thermodynamic property, and ending at a general-purpose cycle simulator and BEE star-rating compliance modelling. Every notebook is **runnable in Google Colab** and every notebook's outputs (charts, calculated numbers) are **saved directly in the file**, so you don't need to run any code to see the results — just open a notebook on GitHub and scroll.
+A complete 20-day, code-first build-up of refrigeration engineering simulation skills — starting from reading a single thermodynamic property, and ending at a general-purpose cycle simulator and BEE star-rating compliance modelling. Every notebook is **runnable in Google Colab** and every notebook's outputs (charts, calculated numbers) are **saved directly in the file**, so you don't need to run any code to see the results — just open a notebook on GitHub and scroll.
 
 Each notebook also includes a short plain-language explanation of what the chart shows and why it matters, so the engineering point comes across even if you don't read Python.
 
@@ -36,7 +36,7 @@ Full cycle simulation for any refrigerant: P-H diagrams, COP analysis, component
 | [`day14_cop_degradation_dashboard.ipynb`](day14_cop_degradation_dashboard.ipynb) | How much COP every refrigerant loses as condensing temperature climbs through an Indian summer |
 | [`day19_refrigeration_simulator.ipynb`](day19_refrigeration_simulator.ipynb) | **Capstone:** one master function — any refrigerant, any condition, full cycle output |
 
-## Project 2 — PCM & Patent-Linked Analysis (Days 15–18, 20)
+## Project 2 — PCM & Patent-Linked Analysis (Days 15–18)
 
 Phase-change material thermal modelling, defrost-cycle optimization, and BEE compliance — directly recreating the physics behind two of the three granted patents.
 
@@ -46,19 +46,18 @@ Phase-change material thermal modelling, defrost-cycle optimization, and BEE com
 | [`day16_pcm_integration.ipynb`](day16_pcm_integration.ipynb) | PCM pack improving bottle-cooling response time inside a refrigerator cabin |
 | [`day17_defrost_simulation.ipynb`](day17_defrost_simulation.ipynb) | Optimal defrost interval, and the energy a simultaneous cooling/defrosting design eliminates |
 | [`day18_bee_energy_analysis.ipynb`](day18_bee_energy_analysis.ipynb) | Official BEE Star Rating Band formula (IS 15750:2006) applied to the simulated annual energy number |
-| [`day20_patent_impact_summary.ipynb`](day20_patent_impact_summary.ipynb) | **Capstone:** the four headline patent-linked numbers from Days 15–18, consolidated into one summary |
 
 ## Capstone
 
 | Notebook | What it shows |
 |---|---|
-| [`day21_capstone.ipynb`](day21_capstone.ipynb) | Final wrap: the 21-day arc, by week and theme |
+| [`day20_capstone.ipynb`](day20_capstone.ipynb) | Final wrap: the 20-day arc, by week and theme |
 
 ---
 
 ## Engineering context
 
-Built by a refrigeration R&D engineer with hands-on experience in BEE regulatory testing, compressor selection, and heat exchanger optimization at IFB Industries and LG Soft India, and three patents covering PCM-based cooling, multi-mode air circulation, and simultaneous cooling/defrosting. Days 15–18 and 20 directly recreate the physics behind two of those patents as standalone simulations. The refrigerant comparison work (Days 6, 14) maps directly to the global industry transition away from HFCs like R134a, driven by EU F-Gas regulation and equivalent rules elsewhere.
+Built by a refrigeration R&D engineer with hands-on experience in BEE regulatory testing, compressor selection, and heat exchanger optimization at IFB Industries and LG Soft India, and three patents covering PCM-based cooling, multi-mode air circulation, and simultaneous cooling/defrosting. Days 15–18 directly recreate the physics behind two of those patents as standalone simulations. The refrigerant comparison work (Days 6, 14) maps directly to the global industry transition away from HFCs like R134a, driven by EU F-Gas regulation and equivalent rules elsewhere.
 
 ## Quick start
 
