@@ -58,7 +58,7 @@ Phase-change material thermal modelling, defrost-cycle optimization, and BEE com
 
 ## Engineering context
 
-Built by a refrigeration R&D engineer with hands-on experience in BEE regulatory testing, compressor selection, and heat exchanger optimization at IFB Industries and LG Soft India, and three granted patents covering PCM-based cooling, multi-mode air circulation, and simultaneous cooling/defrosting. Days 15–18 and 20 directly recreate the physics behind two of those patents as standalone simulations. The refrigerant comparison work (Days 6, 14) maps directly to the global industry transition away from HFCs like R134a, driven by EU F-Gas regulation and equivalent rules elsewhere.
+Built by a refrigeration R&D engineer with hands-on experience in BEE regulatory testing, compressor selection, and heat exchanger optimization at IFB Industries and LG Soft India, and three patents covering PCM-based cooling, multi-mode air circulation, and simultaneous cooling/defrosting. Days 15–18 and 20 directly recreate the physics behind two of those patents as standalone simulations. The refrigerant comparison work (Days 6, 14) maps directly to the global industry transition away from HFCs like R134a, driven by EU F-Gas regulation and equivalent rules elsewhere.
 
 ## Quick start
 
